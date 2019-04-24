@@ -91,6 +91,7 @@ chmod +x *.sh; done
 >>>>>>> EdiciónCristóbal
 ```
 1. Filtrado de calidad (Trimmomatic)
+
 ```
 #!/bin/bash
 #bash nombre_shipt.sh
@@ -110,6 +111,7 @@ chmod +x *.scr; done
 ```
 2. Ensamble (metaSPADES o megaHIT)
 -Con metaSPADES:
+
 ```
 #!/bin/bash
 
@@ -150,6 +152,7 @@ Se puede realizar para los contigs largos, cortos o el ensamble híbrido (contig
 python /home/miguel/mbin/quast-5.0.0/quast.py *contigs.fasta
 ```
 4. Mapeo de _reads_ crudos _vs contigs_, se utiliza bbmap
+
 ```
 #!/bin/bash
 
@@ -171,6 +174,7 @@ ter=22 subfilter=15 maxindel=80 >> $*.$COUNT.scr
 chmod +x *.scr; done
 ```
 5. Obtener _reads_ no mapeados en el ensamblado
+
 ```
 #!/bin/bash
 
@@ -193,6 +197,7 @@ chmod +x *.scr; done
 for FAA in `ls *_unpaired_R1.fastq | perl -pe 's/\_.*//g' | sort | uniq`; do cat "$FAA"_unpaired_R1.fastq "$FAA"_unpaired_R2.fastq > "$FAA"_all_unpaired.fastq; done
 ```
 6. Segundo ensamble de _reads_ no mapeados con _Velvet_ con cobertura 2X
+
 ```
 #!/bin/bash
 
@@ -213,6 +218,7 @@ chmod +x *.scr; done
 ```
 7. Mapeo de _reads_ crudos _vs_ ensamblado con _Velvet_
 8. Unir el ensamble del paso 2 contra el ensamble de 6; Descartar contigs de <100 pb; renombrar los contigs por muestra
+  
   8.1 Concatenar los contigs de las muestras 
 ```
  for i in `cat muestras`; do echo "cat "$i"_spades_contigs.fasta "$i"_velv_contigs.fasta >"$i"_SVcontigs.fasta"| sh; done
@@ -226,6 +232,7 @@ for i in `cat muestras`; do echo "perl /home/hugo/scripts/remove_small.pl 100 "$
 for i in `cat muestras`; do echo " perl /home/hugo/scripts/header.fasta.numbers.pl "$i" "$i"_SVclf.fasta"| sh; done
 ```
 9. Predicción de ORFs con _Prodigal_
+
 ```
 #!/bin/bash
 
@@ -247,6 +254,7 @@ chmod +x *.scr
 done
 ```
 10. Anotación de los archivos de proteínas predichas de _Prodigal_ contra M5NR usando el API del RAST
+
 ```
 #!/bin/bash
 #Forma de uso: bash nombre_script.sh <nombre-del-trabajo>
